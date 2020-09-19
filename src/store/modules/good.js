@@ -1,12 +1,14 @@
 
-import { fetchcategories,fetchSearch } from '@/utils/api'
+import { fetchcategories,fetchSearch} from '@/utils/api'
 
 export default {
     namespaced: true,
     state:{
-        Cate_gor:[],    //所有数据
-        Cate_list:[],    //根据id改变的小数据
-        good_list:[]
+        Cate_gor:[],        //所有数据
+        Cate_list:[],       //根据id改变的小数据
+        good_list:[],       //商品列表
+        bol:false,          //判断还有没有数据
+        
     },
     mutations: {
         Cate(state,payload){
@@ -23,8 +25,19 @@ export default {
                 return null
             })
         },
+        //清空列表数据
+        clearGoodList(state){
+            console.log('清空')
+            state.good_list=[]
+        },
         GoodList(state,payload){
-            state.good_list=payload
+            console.log('payload',payload)
+            if(payload.goods.length!=0){
+                state.good_list=[...state.good_list,...payload.goods]
+            }else{
+                console.log('没数据了')
+                state.bol=true
+            }
         }
     },
     actions:{
@@ -37,10 +50,10 @@ export default {
         //传入id调商品列表
         getGoodList(store,params){
             fetchSearch(params).then(res=>{
-                console.log(res)
+                // console.log(res)
                 store.commit('GoodList',res.message)
             })
-        }
+        },
     },
     modules:{
     }

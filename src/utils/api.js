@@ -40,13 +40,49 @@ export function fetchSearch(params){
         params
     })
 }
-
+//传id调商品详情的按钮
+export function fetchDetail(params){
+    return axios({
+        url:'/goods/detail',
+        methods:'GET',
+        params
+    })
+}
+// //注册接口
+import fetch from 'axios'
+export function fetchCreateUser(data){
+    return fetch({
+        url:'http://s.linweiqin.com/api/s/createUser',
+        method:'POST',
+        data
+    })
+}
+//验证码
+export function fetchGetMobileCode(params){
+    return fetch({
+        url:'http://s.linweiqin.com/api/s/getMobileCode',
+        method:'GET',
+        params
+    })
+}
+//登录
+export function fetchLoginCheck(data){
+    return fetch({
+        url:'http://s.linweiqin.com/api/s/loginCheck',
+        method:'POST',
+        data
+    })
+}
 export default {
     fetchSwiperData,
     fetchCatItems,
     fetchFloorData,
     fetchcategories,
-    fetchSearch
+    fetchSearch,
+    fetchDetail,
+    fetchCreateUser,
+    fetchGetMobileCode,
+    fetchLoginCheck
 }
 
 

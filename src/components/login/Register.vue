@@ -1,9 +1,10 @@
 <template>
-    <div class="login">
+    <div class="register">
         <!-- 头部 -->
         <KBHeader titname="我的" :bol="true"></KBHeader>
-        <div class="login-user">
+        <div class="register-user">
             <van-form @submit="onSubmit">
+
                 <van-field
                     v-model="username"
                     name="用户名"
@@ -19,16 +20,30 @@
                     placeholder="密码"
                     :rules="[{ required: true, message: '请填写密码' }]"
                 />
+                <van-field
+                    v-model="verification"
+                    name="验证码"
+                    label="验证码"
+                    placeholder="验证码"
+                    :rules="[{ required: true, message: '请填写验证码' }]"
+                >
+                <template #button>
+                    <van-button size="small" @click="fetchyzm" type="primary">发送验证码</van-button>
+                </template>
+                </van-field>
+
                 <div style="margin: 16px;">
-                    <van-button round block type="info" native-type="submit">
-                    登录
+                    <van-button style="marg" round block type="info" native-type="submit">
+                    注册
                     </van-button>
-                    
                 </div>
+                    
             </van-form>
-            <van-button @click="jump" round block type="info">
-                去注册页面
-            </van-button>
+            <div style="margin: 16px;">
+                <van-button  @click="jump" round block type="info">
+                    去登录页面
+                </van-button>
+            </div>
         </div>
         <!-- 底部 -->
         <KBTabbar></KBTabbar>
@@ -38,7 +53,7 @@
 <script>
 import { KBTabbar,KBHeader, } from '@/components/'
 import { Form,Button,Field } from 'vant';
-import { fetchLoginCheck } from '@/utils/api'
+import { fetchCreateUser,fetchGetMobileCode } from '@/utils/api'
 export default {
     components: {
         KBTabbar,
@@ -51,33 +66,41 @@ export default {
         return {
             username: '',
             password: '',
+            verification:'' //验证码
         }
     },
     methods:{
+        //注册
         onSubmit() {
-            fetchLoginCheck({
+            fetchCreateUser({
+                mobile:this.username,
                 username:this.username,
-                password:this.password
+                password:this.password,
+                code:this.verification
             }).then(res=>{
-                localStorage.setItem('token',JSON.parse(JSON.stringify(res.data.wdata.oauth_token)))
+                console.log(res,this.password)
             })
         },
         jump(){
-            this.$router.push('/register')
+            this.$router.push('/login')
         },
+        //获取验证码
+        fetchyzm(){
+            fetchGetMobileCode({mobile:this.username}).then(res=>{
+                console.log(res)
+            })
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
-    .login{
+    .register{
         height: 100%;
         width: 100%;
-        .login-user{
+        .register-user{
             margin-top: 1.2rem;
             width: 100%;
-            height: 200px;
             position: relative;
-            
             
         }
     }

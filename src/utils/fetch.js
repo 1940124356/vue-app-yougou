@@ -12,6 +12,7 @@ const instance = axios.create({
 // 配置一个 请求 的拦截器
 instance.interceptors.request.use(function (config) {
     // Do something before request is sent
+    // console.log('请求拦截',config)
     return config;
   }, function (error) {
     // Do something with request error

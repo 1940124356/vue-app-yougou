@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { Login } from '@/components/'
+import { Login,Register } from '@/components/'
 import navs from '@/utils/navs'
 
 Vue.use(VueRouter)
@@ -14,6 +14,7 @@ navs.map(ele=>{
 const routes = [
   ...arr,
   {path: '/login',components:{login:Login}},
+  {path: '/register',components:{register:Register}},
   {path:'/*',redirect:'/home'}
 ]
 
@@ -23,7 +24,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {   //to即将要进入的目标，from即将要离开的目标
   //判断如果进入的不是登录页面就进入下一层判断
-  if(to.path=='/user'||to.path=='/cart'){
+  if(to.path=='/cart'){
     //判断有没有token有就不干事
     if(localStorage.getItem('token')){
       next()

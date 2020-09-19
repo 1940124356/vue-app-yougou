@@ -1,9 +1,8 @@
 <template>
   <div id="app">
-    <keep-alive>
       <router-view v-if='this.$route.path=="/login"' name="login"></router-view>
+      <router-view v-if='this.$route.path=="/register"' name="register"></router-view>
       <router-view v-else/>
-    </keep-alive>
   </div>
 </template>
 

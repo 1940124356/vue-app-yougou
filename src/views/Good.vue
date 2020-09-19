@@ -38,55 +38,44 @@ components: {
     KBHeader,
     KBSearch
 },
-data() {
-//这里存放数据
-return {
-       
-};
-},
-//监听属性 类似于data概念
-computed: {
-    ...mapState('good',['Cate_gor','Cate_list']),
-    // newarr:function(){
-    //     return this.arr.filter(ele=>{
-    //         return ele.arr2!=null
-    //     })
-    // }
-    newCate_cdr:function(){
-        if(this.Cate_list.children){
-            return this.Cate_list.children.filter(ele=>{
-                return ele.children!=null
-            })
-        }else{
-            return null
+    data() {
+    //这里存放数据
+    return {
+        
+    };
+    },
+    //监听属性 类似于data概念
+    computed: {
+        ...mapState('good',['Cate_gor','Cate_list']),
+        newCate_cdr:function(){
+            if(this.Cate_list.children){
+                return this.Cate_list.children.filter(ele=>{
+                    return ele.children!=null
+                })
+            }else{
+                return null
+            }
         }
-    }
-},
-//监控data中的数据变化
-watch: {},
-//方法集合
-methods: {
-    ...mapMutations('good',['changeCate']),
-    ...mapActions('good',['getCate']),
-    jump(id,name){
-        this.$router.push('/goodlist/'+id+'/'+name)
-    }
-},
-//生命周期 - 创建完成（可以访问当前this实例）
-created() {
+    },
+    //方法集合
+    methods: {
+        ...mapMutations('good',['changeCate','clearGoodList']),
+        ...mapActions('good',['getCate','getGoodList']),
+        jump(id){
+            this.clearGoodList()
+            this.getGoodList({
+                cid:id,
+                pagenum:1,
+                pagesize:8
+            })
+            this.$router.push(`/goodlist/${id}`)
+        }
+    },
 
-},
-//生命周期 - 挂载完成（可以访问DOM元素）
-mounted() {
-    this.getCate({})
-},
-beforeCreate() {}, //生命周期 - 创建之前
-beforeMount() {}, //生命周期 - 挂载之前
-beforeUpdate() {}, //生命周期 - 更新之前
-updated() {}, //生命周期 - 更新之后
-beforeDestroy() {}, //生命周期 - 销毁之前
-destroyed() {}, //生命周期 - 销毁完成
-activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+    //生命周期 - 挂载完成（可以访问DOM元素）
+    mounted() {
+        this.getCate({})
+    }
 }
 </script>
 <style lang="scss" scoped>
