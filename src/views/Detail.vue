@@ -35,7 +35,6 @@
             <van-goods-action-button
                 type="danger"
                 text="立即购买"
-                @click="onClickButton"
             />
         </van-goods-action>
     </div>
@@ -46,7 +45,8 @@
 //例如：import 《组件名称》 from '《组件路径》';
 import { KBHeader } from '@/components/'
 import { GoodsAction, GoodsActionIcon, GoodsActionButton,Icon  } from 'vant';
-import { fetchDetail } from '@/utils/api'
+import { fetchDetail,fetchUpDateCarts } from '@/utils/api'
+import { mapMutations,mapState } from 'vuex'
 export default {
     //import引入的组件需要注入到对象中才能使用
     components: {
@@ -64,7 +64,9 @@ export default {
     };
     },
     //监听属性 类似于data概念
-    computed: {},
+    computed: {
+        ...mapState('good',['shop_car'])
+    },
     //监控data中的数据变化
     watch: {},
     //生命周期 - 挂载完成（可以访问DOM元素）
@@ -74,15 +76,36 @@ export default {
             goods_id:this.$route.params.id
         }).then(res=>{
             this.item=res.message
+            console.log(this.item)
         })
     },
     //方法集合
     methods: {
+        ...mapMutations('good',['AddShopCar']),
         onClickIcon() {
             console.log('点击图标')
         },
+        //添加购物车
         onClickButton() {
-            console.log('点击购买')
+            //这次点击的商品要添加的数据
+            let goods={
+                goods_small_logo:this.item.goods_small_logo,
+                goods_name:this.item.goods_name,
+                goods_num:1,
+                goods_price:this.item.goods_price,
+            }
+            // 添加商品到购物车
+            this.AddShopCar(goods)
+            console.log('我的购物车',this.shop_car)
+            //添加商品的接口：报错500
+            fetchUpDateCarts({
+                action:'add',
+                productNumber:1,
+                pid:this.item.goods_id,
+                oauth_token:localStorage.getItem('token')
+            }).then(res=>{
+                console.log(res)
+            })
         },
     },
 }

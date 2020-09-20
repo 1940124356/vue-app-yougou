@@ -8,6 +8,7 @@ export default {
         Cate_list:[],       //根据id改变的小数据
         good_list:[],       //商品列表
         bol:false,          //判断还有没有数据
+        shop_car:[],        //你的购物车
         
     },
     mutations: {
@@ -30,6 +31,7 @@ export default {
             console.log('清空')
             state.good_list=[]
         },
+        //添加商品列表里的数据
         GoodList(state,payload){
             console.log('payload',payload)
             if(payload.goods.length!=0){
@@ -38,6 +40,10 @@ export default {
                 console.log('没数据了')
                 state.bol=true
             }
+        },
+        //添加商品到购物车
+        AddShopCar(state,payload){
+            state.shop_car.push(payload)
         }
     },
     actions:{

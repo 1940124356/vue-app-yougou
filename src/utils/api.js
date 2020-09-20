@@ -73,6 +73,14 @@ export function fetchLoginCheck(data){
         data
     })
 }
+//购物车增删改查
+export function fetchUpDateCarts(data){
+    return axios({
+        url:'http://s.linweiqin.com/api/s/updateCarts',
+        method:'POST',
+        data
+    })
+}
 export default {
     fetchSwiperData,
     fetchCatItems,
@@ -82,7 +90,8 @@ export default {
     fetchDetail,
     fetchCreateUser,
     fetchGetMobileCode,
-    fetchLoginCheck
+    fetchLoginCheck,
+    fetchUpDateCarts
 }
 
 
